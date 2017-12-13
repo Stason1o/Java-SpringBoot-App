@@ -39,7 +39,9 @@ public class LoginController {
         LOGGER.debug("Login page");
         ModelAndView modelAndView = new ModelAndView();
         User user = new User();
+        Integer i = 10;
         modelAndView.addObject("user", user);
+        modelAndView.addObject("number", i);
         modelAndView.setViewName("login");
         return modelAndView;
     }

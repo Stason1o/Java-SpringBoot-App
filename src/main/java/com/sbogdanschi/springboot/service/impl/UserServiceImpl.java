@@ -54,4 +54,9 @@ public class UserServiceImpl implements UserService {
         LOGGER.debug("User was successfully saved");
     }
 
+    @Override
+    public List<User> retrieveAllUsers() {
+        LOGGER.debug("Retrieving list of users..");
+        return userRepository.findAll();
+    }
 }
