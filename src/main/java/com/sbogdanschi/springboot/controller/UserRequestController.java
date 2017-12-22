@@ -21,8 +21,8 @@ public class UserRequestController {
     }
 
     @RequestMapping(value = "/userList", method = RequestMethod.GET)
-    public ModelAndView userList() {
-        ModelAndView modelAndView = new ModelAndView();
+    public ModelAndView userList(ModelAndView modelAndView) {
+//        ModelAndView modelAndView = new ModelAndView();
         List<User> users = userService.retrieveAllUsers();
         modelAndView.addObject("userList", users);
         modelAndView.setViewName("adminpanel");
@@ -30,11 +30,18 @@ public class UserRequestController {
     }
 
     @RequestMapping(value = "/testrest", method = RequestMethod.GET)
-    public ModelAndView restUser() {
-        ModelAndView modelAndView = new ModelAndView();
+    public ModelAndView restUser(ModelAndView modelAndView) {
+//        ModelAndView modelAndView = new ModelAndView();
 //        List<User> users = userService.retrieveAllUsers();
 //        modelAndView.addObject("userList", users);
         modelAndView.setViewName("testrest");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/userManagement", method = RequestMethod.GET)
+    public ModelAndView getIndexPage(ModelAndView modelAndView) {
+//        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("userManagement");
         return modelAndView;
     }
 }

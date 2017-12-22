@@ -27,36 +27,30 @@ public class LoginController {
     }
 
     @GetMapping(value = "/")
-    public ModelAndView homePage() {
+    public ModelAndView homePage(ModelAndView modelAndView) {
         LOGGER.debug("Home page");
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("greeting");
+        modelAndView.setViewName("index");
         return modelAndView;
     }
 
     @GetMapping(value = "/login")
-    public ModelAndView login() {
+    public ModelAndView login(ModelAndView modelAndView) {
         LOGGER.debug("Login page");
-        ModelAndView modelAndView = new ModelAndView();
         User user = new User();
-        Integer i = 10;
         modelAndView.addObject("user", user);
-        modelAndView.addObject("number", i);
         modelAndView.setViewName("login");
         return modelAndView;
     }
 
     @PostMapping(value = "/login")
-    public ModelAndView postLogin(@ModelAttribute("user") User user) {
-        ModelAndView modelAndView = new ModelAndView();
+    public ModelAndView postLogin(@ModelAttribute("user") User user, ModelAndView modelAndView) {
         modelAndView.setViewName("home");
         return modelAndView;
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
-    public ModelAndView registration() {
+    public ModelAndView registration(ModelAndView modelAndView) {
         LOGGER.debug("Registration page");
-        ModelAndView modelAndView = new ModelAndView();
         User user = new User();
         modelAndView.addObject("user", user);
         modelAndView.setViewName("registration");
@@ -64,8 +58,7 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public ModelAndView createNewUser(@Valid User user, BindingResult bindingResult) {
-        ModelAndView modelAndView = new ModelAndView();
+    public ModelAndView createNewUser(@Valid User user, BindingResult bindingResult, ModelAndView modelAndView) {
         User userExists = userService.findByUsername(user.getUsername());
         if (userExists != null) {
             bindingResult
@@ -84,9 +77,8 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/admin/home", method = RequestMethod.GET)
-    public ModelAndView home() {
+    public ModelAndView home(ModelAndView modelAndView) {
         LOGGER.debug("Admin page");
-        ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByUsername(auth.getName());
         modelAndView.addObject("userName", "Welcome " + user.getFirstName() + " " + user.getLastName() + " (" + user.getEmail() + ")");
@@ -96,9 +88,8 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/error", method = RequestMethod.GET)
-    public ModelAndView errorPage() {
+    public ModelAndView errorPage(ModelAndView modelAndView) {
         LOGGER.debug("Error page");
-        ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("error");
         return modelAndView;
     }

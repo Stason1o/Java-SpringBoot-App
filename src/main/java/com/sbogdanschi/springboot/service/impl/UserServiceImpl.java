@@ -59,4 +59,34 @@ public class UserServiceImpl implements UserService {
         LOGGER.debug("Retrieving list of users..");
         return userRepository.findAll();
     }
+
+    @Override
+    public boolean userExists() {
+        return false;
+    }
+
+    @Override
+    public User findById(Long id) {
+        return null;
+    }
+
+    @Override
+    public void updateUser(User user) {
+        userRepository.updateUser(user.getId(), user.getUsername(), user.getEmail(),
+                user.getFirstName(), user.getLastName());
+    }
+
+    public void updateUser1(User user) {
+        userRepository.saveAndFlush(user);
+    }
+
+    @Override
+    public void deleteUserById(Long id) {
+        userRepository.deleteUserById(id);
+    }
+
+    @Override
+    public void deleteAllUsers() {
+        userRepository.deleteAllUsers();
+    }
 }

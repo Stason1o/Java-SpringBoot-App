@@ -13,4 +13,16 @@ public interface UserService {
 
     List<User> retrieveAllUsers();
 
+    boolean userExists();
+
+    User findById(Long id);
+
+    void updateUser(User user);
+
+    void deleteUserById(Long id);
+
+    void deleteAllUsers();
+
+    void updateUser1(User user);
+
 }
