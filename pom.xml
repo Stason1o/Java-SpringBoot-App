@@ -69,6 +69,7 @@
 		</dependency>
 
 		<!-- Third Party dependencies-->
+		<!--webjars static resources-->
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>jquery</artifactId>
@@ -115,9 +116,9 @@
 			<version>1.9.20</version>
 		</dependency>
 		<dependency>
-			<groupId>nz.net.ultraq.thymeleaf</groupId>
-			<artifactId>thymeleaf-layout-dialect</artifactId>
-			<version>2.0.5</version>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.3.1</version>
 		</dependency>
 	</dependencies>
 

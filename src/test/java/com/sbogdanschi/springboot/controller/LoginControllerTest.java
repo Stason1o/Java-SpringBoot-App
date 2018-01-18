@@ -69,17 +69,17 @@ public class LoginControllerTest {
 
     @Test
     public void registration() throws Exception {
-        User expectedUser = new User();
+        user = new User();
         mockMvc.perform(get("/registration"))
                 .andExpect(status().isOk())
-                .andExpect(model().attribute("user", expectedUser))
+                .andExpect(model().attribute("user", user))
                 .andExpect(view().name("registration"));
     }
 
     @Test
     public void createNewUser() throws Exception {
 
-        User user = TestDataUtil.buildUser();
+        user = TestDataUtil.buildUser();
         mockMvc.perform(post("/registration"))
                 .andExpect(status().isOk())
                 .andExpect(status().isCreated());

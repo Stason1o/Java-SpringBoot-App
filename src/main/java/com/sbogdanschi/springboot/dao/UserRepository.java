@@ -16,6 +16,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByUsername(String username);
 
+    @Query("SELECT u FROM User u WHERE u.username LIKE %?1 or u.email LIKE %?1")
+    List<User> findByUsernameOrEmail(String data);
+
     List<User> findAll();
 
     @Query("SELECT CASE WHEN COUNT(u) > 0 THEN true ELSE false END FROM User u WHERE u.username = :username")

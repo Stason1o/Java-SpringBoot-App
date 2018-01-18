@@ -89,4 +89,9 @@ public class UserServiceImpl implements UserService {
     public void deleteAllUsers() {
         userRepository.deleteAllUsers();
     }
+
+    @Override
+    public List<User> findByUsernameOrEmail(String data) {
+        return userRepository.findByUsernameOrEmail(data);
+    }
 }

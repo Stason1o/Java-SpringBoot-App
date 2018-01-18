@@ -1,6 +1,5 @@
 package com.sbogdanschi.springboot.controller;
 
-import com.sbogdanschi.springboot.entity.Greeting;
 import com.sbogdanschi.springboot.entity.User;
 import com.sbogdanschi.springboot.service.UserService;
 import org.apache.logging.log4j.LogManager;
@@ -20,7 +19,7 @@ import static com.sbogdanschi.springboot.util.ControllerUtils.getAuthenticatedUs
 
 @RestController
 @RequestMapping("/userManagement")
-public class RESTController {
+public class RESTController extends BaseController {
 
     private static final Logger LOGGER = LogManager.getLogger(RESTController.class);
 
@@ -34,11 +33,11 @@ public class RESTController {
         this.userService = userService;
     }
 
-    @RequestMapping("/greeting")
-    public Greeting greeting(@RequestParam(value="name", defaultValue="World") String name) {
-        return new Greeting(counter.incrementAndGet(),
-                String.format(TEMPLATE, name));
-    }
+//    @RequestMapping("/greeting")
+//    public Greeting greeting(@RequestParam(value="name", defaultValue="World") String name) {
+//        return new Greeting(counter.incrementAndGet(),
+//                String.format(TEMPLATE, name));
+//    }
 
     @RequestMapping(value = "/users/", method = RequestMethod.GET)
     public ResponseEntity<List<User>> listAllUsers1() {

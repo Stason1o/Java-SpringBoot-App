@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @Controller
-public class UserRequestController {
+public class UserRequestController extends BaseController {
 
     private final UserService userService;
 
@@ -42,6 +42,12 @@ public class UserRequestController {
     public ModelAndView getIndexPage(ModelAndView modelAndView) {
 //        ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("userManagement");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/admin/search", method = RequestMethod.GET)
+    public ModelAndView getSearchPage(ModelAndView modelAndView) {
+        modelAndView.setViewName("search");
         return modelAndView;
     }
 }
