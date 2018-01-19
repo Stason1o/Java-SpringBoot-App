@@ -55,7 +55,7 @@ public class LoginControllerTest {
     public void homePage() throws Exception {
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("greeting"));
+                .andExpect(view().name("index"));
     }
 
     @Test
@@ -89,9 +89,9 @@ public class LoginControllerTest {
 
     @Test
     public void home() throws Exception {
-        mockMvc.perform(get("/admin/home"))
+        mockMvc.perform(get("/admin"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("home"));
+                .andExpect(view().name("admin"));
     }
 
     @Test

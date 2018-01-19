@@ -1,6 +1,7 @@
 package com.sbogdanschi.springboot.controller;
 
 import com.sbogdanschi.springboot.entity.User;
+import com.sbogdanschi.springboot.model.AjaxResponseBody;
 import com.sbogdanschi.springboot.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,12 +11,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
-import static com.sbogdanschi.springboot.util.ControllerUtils.getAuthenticatedUser;
+import static com.sbogdanschi.springboot.util.ControllerUtils.getAuthorizedUser;
 
 @RestController
 @RequestMapping("/userManagement")
@@ -39,28 +41,31 @@ public class RESTController extends BaseController {
 //                String.format(TEMPLATE, name));
 //    }
 
-    @RequestMapping(value = "/users/", method = RequestMethod.GET)
+    @RequestMapping(value = "users/", method = RequestMethod.GET)
     public ResponseEntity<List<User>> listAllUsers1() {
         List<User> users = userService.retrieveAllUsers();
-        if(users.isEmpty()){
+        if (users.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
         }
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/loggedin/", method = RequestMethod.GET)
+    @RequestMapping(value = "loggedin/", method = RequestMethod.GET)
     @ResponseBody
-    public User getUser () {
-        LOGGER.debug(getAuthenticatedUser());
-        User user = userService.findByUsername(getAuthenticatedUser());
+    public User getUser() {
+        LOGGER.debug(getAuthorizedUser().get());
+        User user = new User();
+        if (getAuthorizedUser().isPresent()) {
+            user = userService.findByUsername(getAuthorizedUser().get());
+        }
         LOGGER.debug(user);
         return user;
     }
 
-    @PostMapping(value = "/user/")
+    @PostMapping(value = "user/")
     public ResponseEntity<Void> createUser(@RequestBody User user, UriComponentsBuilder ucBuilder) {
         LOGGER.info("Creating user: " + user.getEmail());
-        if(userService.userExists()) {
+        if (userService.userExists()) {
             LOGGER.warn("User with username " + user.getUsername() + " already exists!");
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
@@ -72,11 +77,11 @@ public class RESTController extends BaseController {
         return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/user/", method = RequestMethod.GET)
+    @RequestMapping(value = "user/", method = RequestMethod.GET)
     public ResponseEntity<List<User>> listAllUsers() {
         List<User> users = userService.retrieveAllUsers();
         users.forEach(System.out::println);
-        if(users.isEmpty()){
+        if (users.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
         }
         return new ResponseEntity<>(users, HttpStatus.OK);
@@ -85,7 +90,7 @@ public class RESTController extends BaseController {
 
     //-------------------Retrieve Single User--------------------------------------------------------
 
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "user/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> getUser(@PathVariable("id") long id) {
         System.out.println("Fetching User with id " + id);
         User user = userService.findById(id);
@@ -116,16 +121,15 @@ public class RESTController extends BaseController {
 //    }
 
 
-
     //------------------- Update a User --------------------------------------------------------
 
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "user/{id}", method = RequestMethod.PUT)
     public ResponseEntity<User> updateUser(@PathVariable("id") long id, @RequestBody User user) {
         System.out.println("Updating User " + id);
 
         User currentUser = userService.findById(id);
 
-        if (currentUser==null) {
+        if (currentUser == null) {
             System.out.println("User with id " + id + " not found");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -141,10 +145,9 @@ public class RESTController extends BaseController {
     }
 
 
-
     //------------------- Delete a User --------------------------------------------------------
 
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "user/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<User> deleteUser(@PathVariable("id") long id) {
         System.out.println("Fetching & Deleting User with id " + id);
 
@@ -160,12 +163,14 @@ public class RESTController extends BaseController {
 
     //------------------- Delete All Users --------------------------------------------------------
 
-    @RequestMapping(value = "/user/", method = RequestMethod.DELETE)
+    @RequestMapping(value = "user/", method = RequestMethod.DELETE)
     public ResponseEntity<User> deleteAllUsers() {
         System.out.println("Deleting All Users");
 
         userService.deleteAllUsers();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+
 
 }

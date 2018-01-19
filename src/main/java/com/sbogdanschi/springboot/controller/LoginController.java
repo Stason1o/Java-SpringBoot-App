@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Optional;
+
+import static com.sbogdanschi.springboot.util.ControllerUtils.getAuthorizedUser;
 
 @Controller
 public class LoginController extends BaseController{
@@ -36,9 +39,15 @@ public class LoginController extends BaseController{
     @GetMapping(value = "/login")
     public ModelAndView login(ModelAndView modelAndView) {
         LOGGER.debug("Login page");
-        User user = new User();
-        modelAndView.addObject("user", user);
-        modelAndView.setViewName("login");
+
+        if(Optional.empty().equals(getAuthorizedUser())) {
+            User user = new User();
+            modelAndView.addObject("user", user);
+            modelAndView.setViewName("login");
+            return modelAndView;
+        }
+
+        modelAndView.setViewName("redirect:/");
         return modelAndView;
     }
 
@@ -79,8 +88,11 @@ public class LoginController extends BaseController{
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public ModelAndView home(ModelAndView modelAndView) {
         LOGGER.debug("Admin page");
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findByUsername(auth.getName());
+        User user = new User();
+        if(getAuthorizedUser().isPresent()) {
+            user = userService.findByUsername(getAuthorizedUser().get());
+        }
+
         modelAndView.addObject("userName", "Welcome " + user.getFirstName() + " " + user.getLastName() + " (" + user.getEmail() + ")");
         modelAndView.addObject("adminMessage", "Content Available Only for Users with Admin Role");
         modelAndView.setViewName("admin");

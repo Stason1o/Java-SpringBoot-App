@@ -8,6 +8,16 @@ public class AjaxResponseBody {
 
     private String msg;
     private List<User> retrievedUsers;
+    private Object obj;
+
+    public AjaxResponseBody() {
+        //empty constructor
+    }
+
+    public AjaxResponseBody(String msg, Object obj) {
+        this.msg = msg;
+        this.obj = obj;
+    }
 
     public String getMsg() {
         return msg;
