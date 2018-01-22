@@ -1,7 +1,6 @@
 package com.sbogdanschi.springboot.controller;
 
 import com.sbogdanschi.springboot.entity.User;
-import com.sbogdanschi.springboot.model.AjaxResponseBody;
 import com.sbogdanschi.springboot.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
@@ -20,7 +18,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import static com.sbogdanschi.springboot.util.ControllerUtils.getAuthorizedUser;
 
 @RestController
-@RequestMapping("/userManagement")
+@RequestMapping("/admin/user-management/")
 public class RESTController extends BaseController {
 
     private static final Logger LOGGER = LogManager.getLogger(RESTController.class);

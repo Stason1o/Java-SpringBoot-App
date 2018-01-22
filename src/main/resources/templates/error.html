@@ -1,20 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Error Page</title>
 </head>
 <body>
     <P>You are here, because smth went wrong. Oooops!</P>
-    <form th:action="@{/registration}" method="get">
-        <button class="btn btn-md btn-warning btn-block" type="Submit">Go To Registration Page</button>
-    </form>
-    <form th:action="@{/login}" method="get">
-        <button class="btn btn-md btn-warning btn-block" type="Submit">Go To Login Page</button>
-    </form>
-    <form th:action="@{/logout}" method="get">
-        <button class="btn btn-md btn-danger btn-block" firstName="registration"
-                type="Submit">Logout</button>
-    </form>
+    <div th:replace="fragments/header :: header"></div>
+    <div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

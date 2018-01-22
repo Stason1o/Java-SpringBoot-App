@@ -47,6 +47,7 @@ public class UserRequestController extends BaseController {
 
     @RequestMapping(value = "/admin/search", method = RequestMethod.GET)
     public ModelAndView getSearchPage(ModelAndView modelAndView) {
+        modelAndView.addObject("searchTemplateBody");
         modelAndView.setViewName("search");
         return modelAndView;
     }

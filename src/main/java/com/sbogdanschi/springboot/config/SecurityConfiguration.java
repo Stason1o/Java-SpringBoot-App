@@ -13,6 +13,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import static com.sbogdanschi.springboot.util.PageUrl.ACCESS_DENIED;
+import static com.sbogdanschi.springboot.util.PageUrl.Admin.ADMIN;
+import static com.sbogdanschi.springboot.util.PageUrl.Admin.ADMIN_SUB_DIRECTORY;
+import static com.sbogdanschi.springboot.util.PageUrl.ERROR_PAGE;
+import static com.sbogdanschi.springboot.util.PageUrl.INDEX;
+import static com.sbogdanschi.springboot.util.PageUrl.User.*;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -22,6 +29,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    private static final String USERNAME_FIELD = "username";
+
+    private static final String PASSWORD_PARAMETER = "password";
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth)
@@ -36,25 +47,25 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.
                 authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers("/login").permitAll()
-                .antMatchers("/registration").permitAll()
-                .antMatchers("/admin/**").hasAuthority("ADMIN").anyRequest()
+                .antMatchers(INDEX).permitAll()
+                .antMatchers(LOGIN).permitAll()
+                .antMatchers(REGISTRATION).permitAll()
+                .antMatchers(ADMIN_SUB_DIRECTORY).hasAuthority(ADMIN).anyRequest()
                 .authenticated()
                 .and()
                 .httpBasic()
                 .and()
                 .csrf().disable().formLogin()
-                .loginPage("/login").failureUrl("/login?error=true")
-                .defaultSuccessUrl("/admin")
-                .usernameParameter("username")
-                .passwordParameter("password")
+                .loginPage(LOGIN).failureUrl(LOGIN_ERROR_PAGE)
+                .defaultSuccessUrl(ADMIN)
+                .usernameParameter(USERNAME_FIELD)
+                .passwordParameter(PASSWORD_PARAMETER)
                 .and().logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/")
+                .logoutRequestMatcher(new AntPathRequestMatcher(LOGOUT))
+                .logoutSuccessUrl(INDEX)
                 .and().exceptionHandling()
-                .accessDeniedPage("/access-denied")
-                .accessDeniedPage("/error");
+                .accessDeniedPage(ACCESS_DENIED)
+                .accessDeniedPage(ERROR_PAGE);
 
     }
 

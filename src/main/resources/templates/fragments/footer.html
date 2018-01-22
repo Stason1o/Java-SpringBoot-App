@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-bottom" th:fragment="footer">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-copyright-mark"></span>&Tab;Stanislav B.</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="/">Home</a></li>
+            <li><a href="#">Page 1</a></li>
+            <li><a href="#">Admin Page</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <form th:action="@{/registration}" method="get">
+                    <button class="btn btn-md btn-warning btn-block" type="Submit"><span class="glyphicon glyphicon-user"></span>&Tab;Sign Up</button>
+                </form>
+            </li>
+            <li sec:authorize="!isAuthenticated()">
+                <form th:action="@{/login}" method="get">
+                    <button class="btn btn-md btn-warning btn-block" type="Submit"><span class="glyphicon glyphicon-log-in"></span>&Tab;Login</button>
+                </form>
+            </li>
+            <th:block sec:authorize="isAuthenticated()">
+                <li>
+                    <form th:action="@{/logout}" method="get">
+                        <button class="btn btn-md btn-danger btn-block" firstName="registration"
+                                type="Submit"><span class="glyphicon glyphicon-log-out"></span>&Tab;Logout</button>
+                    </form>
+                </li>
+            </th:block>
+        </ul>
+    </div>
+</nav>
+</body>
+</html>

@@ -6,21 +6,11 @@
     <title>Greeting Page</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script th:src="@{/js/common.js}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div id="includedContent"></div>
-    <!--<form th:action="@{/registration}" method="get">-->
-        <!--<button class="btn btn-md btn-warning btn-block" type="Submit">Go To Registration Page</button>-->
-    <!--</form>-->
-    <!--<form th:action="@{/login}" method="get">-->
-        <!--<button class="btn btn-md btn-warning btn-block" type="Submit">Go To Login Page</button>-->
-    <!--</form>-->
-    <!--<form th:action="@{/logout}" method="get">-->
-        <!--<button class="btn btn-md btn-danger btn-block" firstName="registration"-->
-                <!--type="Submit">Logout</button>-->
-    <!--</form>-->
+    <div th:replace="fragments/header :: header"></div>
+    <div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>
