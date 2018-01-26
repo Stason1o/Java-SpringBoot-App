@@ -6,8 +6,6 @@ import com.sbogdanschi.springboot.util.PageUrl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +15,7 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 import static com.sbogdanschi.springboot.util.ControllerUtils.getAuthorizedUser;
-import static com.sbogdanschi.springboot.util.PageUrl.Admin.ADMIN;
+import static com.sbogdanschi.springboot.util.PageUrl.Admin.ADMIN_PAGE;
 import static com.sbogdanschi.springboot.util.PageUrl.INDEX;
 import static com.sbogdanschi.springboot.util.PageUrl.REDIRECT;
 import static com.sbogdanschi.springboot.util.PageUrl.REDIRECT_TO;
@@ -92,8 +90,8 @@ public class LoginController extends BaseController{
         return modelAndView;
     }
 
-    @RequestMapping(value = ADMIN, method = RequestMethod.GET)
-    public ModelAndView home(ModelAndView modelAndView) {
+    @RequestMapping(value = ADMIN_PAGE, method = RequestMethod.GET)
+    public ModelAndView adminPage(ModelAndView modelAndView) {
         LOGGER.debug("Admin page");
         User user = new User();
         if(getAuthorizedUser().isPresent()) {

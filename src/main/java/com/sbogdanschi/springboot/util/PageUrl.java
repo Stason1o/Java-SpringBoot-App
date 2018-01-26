@@ -26,9 +26,11 @@ public class PageUrl {
 
     public static final class Admin {
 
-        public static final String ADMIN = "/admin";
+        public static final String ADMIN_PAGE = "/admin";
 
-        public static final String SEARCH = "/admin/search";
+        public static final String BASE_ADMIN_PAGE = "/admin/";
+
+        public static final String SEARCH = "/search";
 
         public static final String USER_MANAGEMENT = "/admin/user-management";
 

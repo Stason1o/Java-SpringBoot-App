@@ -1,6 +1,7 @@
 package com.sbogdanschi.springboot.config;
 
 import com.sbogdanschi.springboot.service.impl.CustomDetailsService;
+import com.sbogdanschi.springboot.util.PageUrl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -14,10 +15,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import static com.sbogdanschi.springboot.util.PageUrl.ACCESS_DENIED;
-import static com.sbogdanschi.springboot.util.PageUrl.Admin.ADMIN;
+import static com.sbogdanschi.springboot.util.PageUrl.Admin.ADMIN_PAGE;
 import static com.sbogdanschi.springboot.util.PageUrl.Admin.ADMIN_SUB_DIRECTORY;
 import static com.sbogdanschi.springboot.util.PageUrl.ERROR_PAGE;
 import static com.sbogdanschi.springboot.util.PageUrl.INDEX;
+import static com.sbogdanschi.springboot.util.PageUrl.Role.ADMIN;
+import static com.sbogdanschi.springboot.util.PageUrl.Role.ROLE_ADMIN;
 import static com.sbogdanschi.springboot.util.PageUrl.User.*;
 
 @Configuration
@@ -57,7 +60,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable().formLogin()
                 .loginPage(LOGIN).failureUrl(LOGIN_ERROR_PAGE)
-                .defaultSuccessUrl(ADMIN)
+                .defaultSuccessUrl(INDEX)
                 .usernameParameter(USERNAME_FIELD)
                 .passwordParameter(PASSWORD_PARAMETER)
                 .and().logout()

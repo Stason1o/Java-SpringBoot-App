@@ -11,7 +11,9 @@
         <ul class="nav navbar-nav">
             <li class="active"><a href="/">Home</a></li>
             <li><a href="#">Page 1</a></li>
-            <li><a href="#">Admin Page</a></li>
+            <li sec:authorize-url="/admin">
+                <a th:href="@{/admin}">Admin Page</a>
+            </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li>

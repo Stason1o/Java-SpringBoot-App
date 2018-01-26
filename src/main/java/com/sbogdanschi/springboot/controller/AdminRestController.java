@@ -19,11 +19,12 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.sbogdanschi.springboot.util.PageUrl.Admin.ADMIN;
+import static com.sbogdanschi.springboot.util.PageUrl.Admin.ADMIN_PAGE;
+import static com.sbogdanschi.springboot.util.PageUrl.Admin.BASE_ADMIN_PAGE;
 import static com.sbogdanschi.springboot.util.PageUrl.Admin.SEARCH;
 
 @Controller
-@RequestMapping(ADMIN)
+@RequestMapping(ADMIN_PAGE)
 public class AdminRestController extends BaseController {
 
     private static final Logger LOGGER = LogManager.getLogger(AdminRestController.class);
