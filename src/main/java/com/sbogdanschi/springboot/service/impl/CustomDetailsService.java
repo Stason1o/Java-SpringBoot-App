@@ -25,8 +25,7 @@ public class CustomDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-    @Autowired
-    public CustomDetailsService(@Lazy UserRepository userRepository) {
+    public CustomDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

@@ -1,11 +1,11 @@
 package com.sbogdanschi.springboot.config;
 
 import com.sbogdanschi.springboot.service.impl.CustomDetailsService;
-import com.sbogdanschi.springboot.util.PageUrl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -15,27 +15,28 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import static com.sbogdanschi.springboot.util.PageUrl.ACCESS_DENIED;
-import static com.sbogdanschi.springboot.util.PageUrl.Admin.ADMIN_PAGE;
 import static com.sbogdanschi.springboot.util.PageUrl.Admin.ADMIN_SUB_DIRECTORY;
 import static com.sbogdanschi.springboot.util.PageUrl.ERROR_PAGE;
 import static com.sbogdanschi.springboot.util.PageUrl.INDEX;
 import static com.sbogdanschi.springboot.util.PageUrl.Role.ADMIN;
-import static com.sbogdanschi.springboot.util.PageUrl.Role.ROLE_ADMIN;
 import static com.sbogdanschi.springboot.util.PageUrl.User.*;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private CustomDetailsService customDetailsService;
+    private final CustomDetailsService customDetailsService;
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     private static final String USERNAME_FIELD = "username";
 
-    private static final String PASSWORD_PARAMETER = "password";
+    private static final String PASSWORD_FIELD = "password";
+
+    public SecurityConfiguration(@Lazy CustomDetailsService customDetailsService, @Lazy BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.customDetailsService = customDetailsService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth)
@@ -62,10 +63,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .loginPage(LOGIN).failureUrl(LOGIN_ERROR_PAGE)
                 .defaultSuccessUrl(INDEX)
                 .usernameParameter(USERNAME_FIELD)
-                .passwordParameter(PASSWORD_PARAMETER)
+                .passwordParameter(PASSWORD_FIELD)
                 .and().logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher(LOGOUT))
-                .logoutSuccessUrl(INDEX)
+                .logoutSuccessUrl(LOGIN)
                 .and().exceptionHandling()
                 .accessDeniedPage(ACCESS_DENIED)
                 .accessDeniedPage(ERROR_PAGE);

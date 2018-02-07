@@ -15,14 +15,12 @@ public class UserRequestController extends BaseController {
 
     private final UserService userService;
 
-    @Autowired
     public UserRequestController(UserService userService) {
         this.userService = userService;
     }
 
     @RequestMapping(value = "/userList", method = RequestMethod.GET)
     public ModelAndView userList(ModelAndView modelAndView) {
-//        ModelAndView modelAndView = new ModelAndView();
         List<User> users = userService.retrieveAllUsers();
         modelAndView.addObject("userList", users);
         modelAndView.setViewName("adminpanel");
@@ -38,16 +36,14 @@ public class UserRequestController extends BaseController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/userManagement", method = RequestMethod.GET)
+    @RequestMapping(value = "/user-management", method = RequestMethod.GET)
     public ModelAndView getIndexPage(ModelAndView modelAndView) {
-//        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("userManagement");
+        modelAndView.setViewName("user-management");
         return modelAndView;
     }
 
     @RequestMapping(value = "/admin/search", method = RequestMethod.GET)
     public ModelAndView getSearchPage(ModelAndView modelAndView) {
-        modelAndView.addObject("searchTemplateBody");
         modelAndView.setViewName("search");
         return modelAndView;
     }
