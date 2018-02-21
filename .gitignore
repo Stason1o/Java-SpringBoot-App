@@ -16,11 +16,15 @@ logs/
 *.iml
 *.ipr
 classes/
+out/
+.gradle/
+!gradle/wrapper/gradle-wrapper.jar
+.gradletasknamecache/
 
 ### NetBeans ###
 nbproject/private/
 build/
-out/
+
 nbbuild/
 dist/
 nbdist/
