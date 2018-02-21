@@ -13,8 +13,7 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.util.HashSet;
-
+import static com.sbogdanschi.springboot.util.TestDataUtil.buildUser;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
@@ -43,16 +42,7 @@ public class UserServiceImplTest {
     @Before
     public void setUp() throws Exception {
         userService = new UserServiceImpl(userRepository, roleRepository, encoder);
-
-        user = new User();
-        user.setEmail("email@domain.com");
-        user.setUsername("dummyUsername");
-        user.setActive(true);
-        user.setFirstName("Dummy");
-        user.setLastName("Dummy last name");
-        user.setId(1L);
-        user.setPassword("dummypassword");
-        user.setRoles(new HashSet<>());
+        user = buildUser();
     }
 
     @After
@@ -86,11 +76,6 @@ public class UserServiceImplTest {
         assertEquals(user, actualUser);
 
         verify(userRepository).findByUsername(user.getUsername());
-    }
-
-    @Test
-    public void testSaveUser() throws Exception {
-
     }
 
 }

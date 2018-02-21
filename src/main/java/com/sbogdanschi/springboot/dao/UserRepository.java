@@ -22,13 +22,24 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findAll();
 
     @Query("SELECT CASE WHEN COUNT(u) > 0 THEN true ELSE false END FROM User u WHERE u.username = :username")
-    boolean userExists(@Param("username") String username);
+    boolean isUsernameRegistered(@Param("username") String username);
+
+    @Query("SELECT CASE WHEN COUNT(u) > 0 THEN true ELSE false END FROM User u WHERE u.email = :email")
+    boolean isEmailRegistered(@Param("email") String email);
 
     User findById(Long id);
 
     @Modifying
+    @Query("UPDATE User u SET u.username = :username, u.email = :email, u.firstName = :firstName, u.lastName = :lastName where u.id = :userId")
+    void updateUserById(@Param("userId") Long userId,
+                        @Param("username") String username,
+                        @Param("email") String email,
+                        @Param("firstName") String firstName,
+                        @Param("lastName") String lastName);
+
+    @Modifying
     @Query("Update User u set u.username = ?2, u.email = ?3, u.firstName = ?4, u.lastName = ?5 where u.id = ?1")
-    void updateUser(Long userId, String username, String email, String firstName, String lastName );
+    void updateUserByUsername(Long userId, String username, String email, String firstName, String lastName);
 
     void deleteUserById(Long id);
 

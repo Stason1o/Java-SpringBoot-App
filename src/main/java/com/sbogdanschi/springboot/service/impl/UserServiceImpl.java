@@ -1,20 +1,20 @@
 package com.sbogdanschi.springboot.service.impl;
 
-import com.sbogdanschi.springboot.entity.Role;
-import com.sbogdanschi.springboot.entity.User;
 import com.sbogdanschi.springboot.dao.RoleRepository;
 import com.sbogdanschi.springboot.dao.UserRepository;
+import com.sbogdanschi.springboot.entity.Role;
+import com.sbogdanschi.springboot.entity.User;
 import com.sbogdanschi.springboot.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
 
-@Service("userService")
+@Service
 public class UserServiceImpl implements UserService {
 
     private static final Logger LOGGER = LogManager.getLogger(UserServiceImpl.class);
@@ -62,8 +62,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean userExists() {
-        return false;
+    public boolean userExists(String username) {
+        return userRepository.isUsernameRegistered(username);
+    }
+
+    @Override
+    public boolean isEmailRegistered(String email) {
+        return userRepository.isEmailRegistered(email);
     }
 
     @Override
@@ -73,13 +78,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(User user) {
-        userRepository.updateUser(user.getId(), user.getUsername(), user.getEmail(),
+        userRepository.updateUserById(user.getId(), user.getUsername(), user.getEmail(),
                 user.getFirstName(), user.getLastName());
     }
 
     public void updateUser1(User user) {
         userRepository.saveAndFlush(user);
-    }
+    } //
 
     @Override
     public void deleteUserById(Long id) {
