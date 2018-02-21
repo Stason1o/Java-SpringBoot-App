@@ -32,9 +32,11 @@ public class PageUrl {
 
         public static final String SEARCH = "/search";
 
-        public static final String USER_MANAGEMENT = "/admin/user-management";
+        public static final String USER_MANAGEMENT = "/user-management";
 
         public static final String ADMIN_SUB_DIRECTORY = "/admin/**";
+
+        public static final String USERS_LIST = "/users/list";
 
         private Admin() {
             //private constructor
@@ -70,5 +72,14 @@ public class PageUrl {
             //default constructor
         }
 
+    }
+
+    public static final class Common {
+
+        private Common() {
+            //default constructor
+        }
+
+        public static final String APPLICATION_JSON = "application/json";
     }
 }

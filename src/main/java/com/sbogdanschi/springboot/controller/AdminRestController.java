@@ -1,12 +1,11 @@
 package com.sbogdanschi.springboot.controller;
 
 import com.sbogdanschi.springboot.entity.User;
-import com.sbogdanschi.springboot.service.UserService;
-import com.sbogdanschi.springboot.model.AjaxResponseBody;
+import com.sbogdanschi.springboot.model.RetrievedUsersResponse;
 import com.sbogdanschi.springboot.model.SearchCriteria;
+import com.sbogdanschi.springboot.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,7 +19,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.sbogdanschi.springboot.util.PageUrl.Admin.ADMIN_PAGE;
-import static com.sbogdanschi.springboot.util.PageUrl.Admin.BASE_ADMIN_PAGE;
 import static com.sbogdanschi.springboot.util.PageUrl.Admin.SEARCH;
 
 @Controller
@@ -31,7 +29,6 @@ public class AdminRestController extends BaseController {
 
     private final UserService userService;
 
-    @Autowired
     public AdminRestController(UserService userService) {
         this.userService = userService;
     }
@@ -39,7 +36,7 @@ public class AdminRestController extends BaseController {
     @PostMapping(SEARCH)
     public ResponseEntity<?> getSearchResultViaAjax(@Valid @RequestBody SearchCriteria search, Errors errors) {
         LOGGER.warn("getSearchResultViaAjax");
-        AjaxResponseBody result = new AjaxResponseBody();
+        RetrievedUsersResponse result = new RetrievedUsersResponse();
 
         //If error, just return a 400 bad request, along with the error message
         if (errors.hasErrors()) {

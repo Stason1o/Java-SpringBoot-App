@@ -1,7 +1,6 @@
 package com.sbogdanschi.springboot.config;
 
-import com.sbogdanschi.springboot.service.impl.CustomDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.sbogdanschi.springboot.service.authentication.CustomDetailsService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

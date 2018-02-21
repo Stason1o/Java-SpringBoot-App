@@ -4,17 +4,17 @@ import com.sbogdanschi.springboot.entity.User;
 
 import java.util.List;
 
-public class AjaxResponseBody {
+public class RetrievedUsersResponse {
 
     private String msg;
     private List<User> retrievedUsers;
     private Object obj;
 
-    public AjaxResponseBody() {
+    public RetrievedUsersResponse() {
         //empty constructor
     }
 
-    public AjaxResponseBody(String msg, Object obj) {
+    public RetrievedUsersResponse(String msg, Object obj) {
         this.msg = msg;
         this.obj = obj;
     }

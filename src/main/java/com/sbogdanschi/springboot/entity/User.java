@@ -1,5 +1,7 @@
 package com.sbogdanschi.springboot.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Email;
@@ -10,7 +12,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "user", schema = "public")
-@Data @NoArgsConstructor
+@Data @NoArgsConstructor @AllArgsConstructor
+@Builder
 public class User {
 
     @Id

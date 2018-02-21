@@ -18,11 +18,11 @@ function fire_ajax_submit() {
     // search["email"] = $("#email").val();
 
     $("#btn-search").prop("disabled", true);
-
+    var currentLocation = window.location.href; //gets url
     $.ajax({
         type: "POST",
         contentType: "application/json",
-        url: "/admin/search",
+        url: currentLocation,
         data: JSON.stringify(search),
         dataType: 'json',
         cache: false,
@@ -32,7 +32,7 @@ function fire_ajax_submit() {
             // alert(data.retrievedUsers.length);
 
             var json1 = "<h4>Ajax Response</h4><div class='container container-table'>" +
-                "<div class='row vertical-center-row'>"; //+ JSON.stringify(data, null, 4) + "</div></div>" ;
+                "<div class='row vertical-center-row'>";
             for (var i = 0; i < data.retrievedUsers.length; i++) { // retrievedUsers from json. It works fine.
                 json1 += "<div class='text-center col-md-8 col-md-offset-2'>" +
                     data.retrievedUsers[i].username + "&Tab;" +

@@ -5,7 +5,6 @@ import com.sbogdanschi.springboot.service.UserService;
 import com.sbogdanschi.springboot.util.PageUrl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -18,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.*;
 import java.util.Optional;
-import java.util.Set;
 
 import static com.sbogdanschi.springboot.util.PageUrl.Admin.ADMIN_PAGE;
 import static com.sbogdanschi.springboot.util.PageUrl.INDEX;
@@ -34,15 +32,6 @@ public class LoginController extends BaseController {
     private static final Logger LOGGER = LogManager.getLogger(LoginController.class);
 
     private final UserService userService;
-
-    private static final Validator validator;
-
-    static {
-        Configuration<?> config = Validation.byDefaultProvider().configure();
-        ValidatorFactory factory = config.buildValidatorFactory();
-        validator = factory.getValidator();
-        factory.close();
-    }
 
     public LoginController(UserService userService) {
         this.userService = userService;
@@ -103,6 +92,11 @@ public class LoginController extends BaseController {
             bindingResult
                     .rejectValue("username", "error.user",
                             "There is already a user registered with the username provided");
+            modelAndView.setViewName(REGISTRATION);
+            return modelAndView;
+        }
+
+        if (bindingResult.hasErrors()) {
             modelAndView.setViewName(REGISTRATION);
             return modelAndView;
         }
