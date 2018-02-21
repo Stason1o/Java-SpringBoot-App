@@ -35,7 +35,7 @@ Configutation:
   Loggers:
 
       Root:
-        level: debug
+        level: info
         AppenderRef:
           - ref: Console_Appender
 
@@ -45,8 +45,8 @@ Configutation:
           level: debug
           AppenderRef:
             - ref: Console_Appender
-              level: info
+              level: debug
 #            - ref: File_Appender
 #              level: debug
             - ref: RollingFile_Appender
-              level: info
+              level: debug

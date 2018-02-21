@@ -1,5 +1,7 @@
 package com.sbogdanschi.springboot.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Email;
@@ -10,7 +12,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "user", schema = "public")
-@Data @NoArgsConstructor
+@Data @NoArgsConstructor @AllArgsConstructor
+@Builder
 public class User {
 
     @Id
@@ -20,6 +23,7 @@ public class User {
 
     @Column(name = "username")
     @NotEmpty(message = "*Please provide a username")
+    @Length(min = 6, message = "*Length must be more than 6 symbols")
     private String username;
 
     @Column(name = "email")
@@ -31,6 +35,9 @@ public class User {
     @Length(min = 5, message = "*Your password must have at least 5 characters")
     @NotEmpty(message = "*Please provide your password")
     private String password;
+
+    @Transient
+    private String repeatPassword;
 
     @Column(name = "first_name")
     @NotEmpty(message = "*Please provide your firstName")

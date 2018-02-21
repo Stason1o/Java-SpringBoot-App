@@ -1,10 +1,8 @@
-package com.sbogdanschi.springboot.service.impl;
+package com.sbogdanschi.springboot.service.authentication;
 
 import com.sbogdanschi.springboot.dao.UserRepository;
 import com.sbogdanschi.springboot.entity.Role;
 import com.sbogdanschi.springboot.entity.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,8 +23,7 @@ public class CustomDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-    @Autowired
-    public CustomDetailsService(@Lazy UserRepository userRepository) {
+    public CustomDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

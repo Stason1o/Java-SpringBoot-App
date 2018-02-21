@@ -8,14 +8,16 @@ import com.sbogdanschi.springboot.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import java.util.*;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
 
-    private static final  Logger LOGGER = LogManager.getLogger(UserServiceImpl.class);
+    private static final Logger LOGGER = LogManager.getLogger(UserServiceImpl.class);
 
     private final UserRepository userRepository;
 
@@ -23,7 +25,6 @@ public class UserServiceImpl implements UserService {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Autowired
     public UserServiceImpl(UserRepository userRepository,
                            RoleRepository roleRepository,
                            BCryptPasswordEncoder bCryptPasswordEncoder) {
@@ -58,5 +59,40 @@ public class UserServiceImpl implements UserService {
     public List<User> retrieveAllUsers() {
         LOGGER.debug("Retrieving list of users..");
         return userRepository.findAll();
+    }
+
+    @Override
+    public boolean userExists() {
+        return false;
+    }
+
+    @Override
+    public User findById(Long id) {
+        return null;
+    }
+
+    @Override
+    public void updateUser(User user) {
+        userRepository.updateUser(user.getId(), user.getUsername(), user.getEmail(),
+                user.getFirstName(), user.getLastName());
+    }
+
+    public void updateUser1(User user) {
+        userRepository.saveAndFlush(user);
+    }
+
+    @Override
+    public void deleteUserById(Long id) {
+        userRepository.deleteUserById(id);
+    }
+
+    @Override
+    public void deleteAllUsers() {
+        userRepository.deleteAllUsers();
+    }
+
+    @Override
+    public List<User> findByUsernameOrEmail(String data) {
+        return userRepository.findByUsernameOrEmail(data);
     }
 }
