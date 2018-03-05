@@ -16,7 +16,9 @@ public interface UserService {
 
     List<User> retrieveAllUsers();
 
-    boolean userExists();
+    boolean userExists(String username);
+
+    boolean isEmailRegistered(String email);
 
     User findById(Long id);
 

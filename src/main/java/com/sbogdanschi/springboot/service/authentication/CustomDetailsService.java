@@ -3,6 +3,8 @@ package com.sbogdanschi.springboot.service.authentication;
 import com.sbogdanschi.springboot.dao.UserRepository;
 import com.sbogdanschi.springboot.entity.Role;
 import com.sbogdanschi.springboot.entity.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,7 +23,10 @@ import java.util.Set;
 @Service("customDetailsService")
 public class CustomDetailsService implements UserDetailsService {
 
+    private static final Logger LOGGER = LogManager.getLogger(CustomDetailsService.class);
+
     private final UserRepository userRepository;
+
 
     public CustomDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -29,9 +34,11 @@ public class CustomDetailsService implements UserDetailsService {
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String userName) {
-        User user = userRepository.findByUsername(userName);
+    public UserDetails loadUserByUsername(String username) {
+        User user = userRepository.findByUsername(username);
+
         List<GrantedAuthority> authorities = getUserAuthority(user.getRoles());
+        LOGGER.debug("Retrieved user: {}  with authorities: {}", user, authorities);
         return buildUserForAuthentication(user, authorities);
     }
 

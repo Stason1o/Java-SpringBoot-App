@@ -2,11 +2,15 @@ package com.sbogdanschi.springboot.controller;
 
 import com.sbogdanschi.springboot.entity.User;
 import com.sbogdanschi.springboot.service.UserService;
+import com.sbogdanschi.springboot.service.authentication.SecurityService;
 import com.sbogdanschi.springboot.util.PageUrl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -15,16 +19,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.*;
+import javax.validation.Valid;
 import java.util.Optional;
 
 import static com.sbogdanschi.springboot.util.PageUrl.Admin.ADMIN_PAGE;
-import static com.sbogdanschi.springboot.util.PageUrl.INDEX;
-import static com.sbogdanschi.springboot.util.PageUrl.REDIRECT;
-import static com.sbogdanschi.springboot.util.PageUrl.REDIRECT_TO;
-import static com.sbogdanschi.springboot.util.PageUrl.User.LOGIN;
-import static com.sbogdanschi.springboot.util.PageUrl.User.LOGOUT;
-import static com.sbogdanschi.springboot.util.PageUrl.User.REGISTRATION;
+import static com.sbogdanschi.springboot.util.PageUrl.*;
+import static com.sbogdanschi.springboot.util.PageUrl.User.*;
 
 @Controller
 public class LoginController extends BaseController {
@@ -33,8 +33,14 @@ public class LoginController extends BaseController {
 
     private final UserService userService;
 
-    public LoginController(UserService userService) {
+    private final SecurityService securityService;
+
+    private final AuthenticationManager authenticationManager;
+
+    public LoginController(UserService userService, SecurityService securityService, AuthenticationManager authenticationManager) {
         this.userService = userService;
+        this.securityService = securityService;
+        this.authenticationManager = authenticationManager;
     }
 
     @GetMapping(value = INDEX)
@@ -75,7 +81,7 @@ public class LoginController extends BaseController {
         return modelAndView;
     }
 
-    @RequestMapping(value = REGISTRATION, method = RequestMethod.GET)
+    @GetMapping(value = REGISTRATION)
     public ModelAndView registration(ModelAndView modelAndView) {
         LOGGER.debug("Registration page");
         User user = new User();
@@ -84,14 +90,23 @@ public class LoginController extends BaseController {
         return modelAndView;
     }
 
-    @RequestMapping(value = REGISTRATION, method = RequestMethod.POST)
-    public ModelAndView createNewUser(@Valid User user, BindingResult bindingResult, ModelAndView modelAndView) {
-        User userExists = userService.findByUsername(user.getUsername());
+    @PostMapping(value = REGISTRATION)
+    public ModelAndView createNewUser(@Valid User user, BindingResult bindingResult, ModelAndView modelAndView, HttpServletRequest request,HttpServletResponse response) {
+        boolean usernameExists = userService.userExists(user.getUsername());
+        boolean emailExists = userService.isEmailRegistered(user.getEmail());
 
-        if (userExists != null) {
+        if (usernameExists) {
             bindingResult
                     .rejectValue("username", "error.user",
                             "There is already a user registered with the username provided");
+            modelAndView.setViewName(REGISTRATION);
+            return modelAndView;
+        }
+
+        if (emailExists) {
+            bindingResult
+                    .rejectValue("email", "error.email",
+                            "There is already an user registered with the email provided");
             modelAndView.setViewName(REGISTRATION);
             return modelAndView;
         }
@@ -101,9 +116,12 @@ public class LoginController extends BaseController {
             return modelAndView;
         }
 
+
         userService.saveUser(user);
+//        securityService.autoLogin(user.getUsername(), user.getPassword(), request);
+       // authenticateUserAndSetSession(user, request);// TODO:FIX ME
         modelAndView.addObject("successMessage", "User has been registered successfully");
-        modelAndView.setViewName(REDIRECT + LOGIN);
+        modelAndView.setViewName(REDIRECT + INDEX);
         LOGGER.debug("User " + user.getUsername() + " was successfully saved");
 
         return modelAndView;
@@ -111,15 +129,17 @@ public class LoginController extends BaseController {
 
     @RequestMapping(value = ADMIN_PAGE, method = RequestMethod.GET)
     public ModelAndView adminPage(ModelAndView modelAndView) {
-        LOGGER.debug("Admin page");
-        User user = new User();
+
+
         if (getAuthorizedUser().isPresent()) {
-            user = userService.findByUsername(getAuthorizedUser().get());
+            modelAndView.addObject("adminMessage", "Content Available Only for Users with Admin Role");
+            modelAndView.setViewName("admin");
+            LOGGER.debug("Admin page");
+            return modelAndView;
         }
 
-        modelAndView.addObject("userName", "Welcome " + user.getFirstName() + " " + user.getLastName() + " (" + user.getEmail() + ")");
-        modelAndView.addObject("adminMessage", "Content Available Only for Users with Admin Role");
-        modelAndView.setViewName("admin");
+        modelAndView.setViewName(REDIRECT + LOGIN);
+        LOGGER.debug("Unauthorized request. Redirecting to login page..");
         return modelAndView;
     }
 
@@ -130,5 +150,18 @@ public class LoginController extends BaseController {
         return modelAndView;
     }
 
+    private void authenticateUserAndSetSession(User user, HttpServletRequest request) {
+        String username = user.getUsername();
+        String password = user.getPassword();
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
+
+        // generate session if one doesn't exist
+        request.getSession();
+
+        token.setDetails(new WebAuthenticationDetails(request));
+        Authentication authenticatedUser = authenticationManager.authenticate(token);
+
+        SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
+    }
 
 }

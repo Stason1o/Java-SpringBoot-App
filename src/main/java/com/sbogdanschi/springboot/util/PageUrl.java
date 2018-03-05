@@ -36,7 +36,9 @@ public class PageUrl {
 
         public static final String ADMIN_SUB_DIRECTORY = "/admin/**";
 
-        public static final String USERS_LIST = "/users/list";
+        public static final String USERS_LIST = "/users/list"; // for RestTemplate
+
+        public static final String USERS = "/users";
 
         private Admin() {
             //private constructor
