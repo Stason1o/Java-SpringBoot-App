@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "role", schema = "public")
+@Table(name = "roles", schema = "flyway_schema")
 @NoArgsConstructor @Data
 @AllArgsConstructor
 @Builder

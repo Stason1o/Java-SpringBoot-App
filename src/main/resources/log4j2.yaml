@@ -42,7 +42,7 @@ Configutation:
       Logger:
         - name: com.sbogdanschi.springboot
           additivity: false
-          level: debug
+          level: info
           AppenderRef:
             - ref: Console_Appender
               level: debug
