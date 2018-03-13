@@ -11,13 +11,15 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "user", schema = "public")
-@Data @NoArgsConstructor @AllArgsConstructor
-@Builder
+@Table(name = "users", schema = "flyway_schema")
+@Data @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_user_id_seq")
+    @SequenceGenerator(name = "users_user_id_seq", sequenceName = "users_user_id_seq", allocationSize = 1)
     @Column(name = "user_id")
     private Long id;
 
@@ -51,7 +53,7 @@ public class User {
     private boolean active;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_role"))
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_role"))
     private Set<Role> roles;
 
 }

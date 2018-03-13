@@ -34,7 +34,7 @@ public class AdminRestController extends BaseController {
     }
 
     @PostMapping(SEARCH)
-    public ResponseEntity<?> getSearchResultViaAjax(@Valid @RequestBody SearchCriteria search, Errors errors) {
+    public ResponseEntity getSearchResultViaAjax(@Valid @RequestBody SearchCriteria search, Errors errors) {
         LOGGER.warn("getSearchResultViaAjax");
         RetrievedUsersResponse result = new RetrievedUsersResponse();
 
