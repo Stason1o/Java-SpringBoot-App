@@ -1,7 +1,7 @@
 package com.sbogdanschi.springboot.service;
 
-import com.sbogdanschi.springboot.dao.RoleRepository;
-import com.sbogdanschi.springboot.dao.UserRepository;
+import com.sbogdanschi.springboot.repository.RoleRepository;
+import com.sbogdanschi.springboot.repository.UserRepository;
 import com.sbogdanschi.springboot.entity.User;
 import com.sbogdanschi.springboot.service.impl.UserServiceImpl;
 import org.junit.After;

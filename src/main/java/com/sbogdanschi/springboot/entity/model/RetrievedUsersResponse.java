@@ -1,4 +1,4 @@
-package com.sbogdanschi.springboot.model;
+package com.sbogdanschi.springboot.entity.model;
 
 import com.sbogdanschi.springboot.entity.User;
 

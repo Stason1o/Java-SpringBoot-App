@@ -1,4 +1,4 @@
-package com.sbogdanschi.springboot.model;
+package com.sbogdanschi.springboot.entity.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

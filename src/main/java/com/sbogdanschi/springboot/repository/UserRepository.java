@@ -1,4 +1,4 @@
-package com.sbogdanschi.springboot.dao;
+package com.sbogdanschi.springboot.repository;
 
 import com.sbogdanschi.springboot.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;

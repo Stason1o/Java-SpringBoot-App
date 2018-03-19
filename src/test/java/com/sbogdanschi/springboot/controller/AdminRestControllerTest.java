@@ -1,7 +1,7 @@
 package com.sbogdanschi.springboot.controller;
 
 import com.sbogdanschi.springboot.entity.User;
-import com.sbogdanschi.springboot.model.SearchCriteria;
+import com.sbogdanschi.springboot.entity.model.SearchCriteria;
 import com.sbogdanschi.springboot.service.UserService;
 import org.junit.Before;
 import org.junit.Ignore;

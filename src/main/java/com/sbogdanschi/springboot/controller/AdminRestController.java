@@ -1,8 +1,8 @@
 package com.sbogdanschi.springboot.controller;
 
 import com.sbogdanschi.springboot.entity.User;
-import com.sbogdanschi.springboot.model.RetrievedUsersResponse;
-import com.sbogdanschi.springboot.model.SearchCriteria;
+import com.sbogdanschi.springboot.entity.model.RetrievedUsersResponse;
+import com.sbogdanschi.springboot.entity.model.SearchCriteria;
 import com.sbogdanschi.springboot.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

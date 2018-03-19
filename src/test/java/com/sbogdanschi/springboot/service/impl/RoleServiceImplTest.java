@@ -1,6 +1,6 @@
 package com.sbogdanschi.springboot.service.impl;
 
-import com.sbogdanschi.springboot.dao.RoleRepository;
+import com.sbogdanschi.springboot.repository.RoleRepository;
 import com.sbogdanschi.springboot.entity.Role;
 import com.sbogdanschi.springboot.service.RoleService;
 import org.junit.After;
